@@ -28,8 +28,3 @@ PRODUCT_NAME := omni_beryllium
 PRODUCT_BRAND := Xiaomi
 PRODUCT_MODEL := Pocophone F1
 PRODUCT_MANUFACTURER := Xiaomi
-
-PRODUCT_BUILD_PROP_OVERRIDES += \
-    PRODUCT_NAME=PocophoneF1 \
-    BUILD_PRODUCT=PocophoneF1 \
-    TARGET_DEVICE=PocophoneF1
