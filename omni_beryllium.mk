@@ -22,6 +22,8 @@ $(call inherit-product, build/target/product/embedded.mk)
 # Inherit from our custom product configuration
 $(call inherit-product, vendor/omni/config/common.mk)
 
+PRODUCT_PACKAGES += init.recovery.vold_decrypt.rc
+
 ## Device identifier. This must come after all inclusions
 PRODUCT_DEVICE := beryllium
 PRODUCT_NAME := omni_beryllium
