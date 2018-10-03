@@ -2,19 +2,24 @@
 
 finish()
 {
-	umount /vendor
-	umount /system
+#	umount /v
+#	umount /s
+#	rmdir /v
+#	rmdir /s
 	setprop crypto.ready 1
 	exit 0
 }
 
 osver=$(getprop ro.build.version.release_orig)
 patchlevel=$(getprop ro.build.version.security_patch_orig)
+suffix=$(getprop ro.boot.slot_suffix)
 
-venpath="/dev/block/bootdevice/by-name/vendor"
-mount -t ext4 -o ro "$venpath" /vendor
-syspath="/dev/block/bootdevice/by-name/system"
-mount -t ext4 -o ro "$syspath" /system
+#venpath="/dev/block/bootdevice/by-name/vendor"
+#mkdir /v
+#mount -t ext4 -o ro "$venpath" /v
+#syspath="/dev/block/bootdevice/by-name/system"
+#mkdir /s
+#mount -t ext4 -o ro "$syspath" /s
 
 if [ -f /system/build.prop ]; then
 	# TODO: It may be better to try to read these from the boot image than from /system
