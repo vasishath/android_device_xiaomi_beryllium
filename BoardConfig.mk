@@ -45,7 +45,7 @@ TARGET_NO_BOOTLOADER := true
 
 # Kernel
 BOARD_KERNEL_CMDLINE := console=ttyMSM0,115200n8 earlycon=msm_geni_serial,0xA84000 androidboot.hardware=qcom
-BOARD_KERNEL_CMDLINE += androidboot.console=ttyMSM0 video=vfb:640x400,bpp=32,memsize=3072000 msm_rtb.filter=0x237 
+BOARD_KERNEL_CMDLINE += androidboot.console=ttyMSM0 video=vfb:640x400,bpp=32,memsize=3072000 msm_rtb.filter=0x237
 BOARD_KERNEL_CMDLINE += ehci-hcd.park=3 lpm_levels.sleep_disabled=1 service_locator.enable=1 swiotlb=2048
 BOARD_KERNEL_CMDLINE += androidboot.configfs=true androidboot.usbcontroller=a600000.dwc3
 BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
@@ -113,6 +113,6 @@ TW_MAX_BRIGHTNESS := 4095
 TW_SCREEN_BLANK_ON_BOOT := true
 TW_THEME := portrait_hdpi
 # MTP seems to cause a kernel panic, at least with some kernels, so disable it for now
-#TW_EXCLUDE_MTP := true
+TW_EXCLUDE_MTP := true
 TWRP_INCLUDE_LOGCAT := true
 TARGET_USES_LOGD := true
