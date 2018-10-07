@@ -27,15 +27,15 @@ if [ -f /s/build.prop ]; then
 	# TODO: It may be better to try to read these from the boot image than from /system
 	osver=$(grep -i 'ro.build.version.release' /s/build.prop  | cut -f2 -d'=')
 	patchlevel=$(grep -i 'ro.build.version.security_patch' /s/build.prop  | cut -f2 -d'=')
-	resetprop ro.build.version.release "$osver"
-	resetprop ro.build.version.security_patch "$patchlevel"
+	setprop ro.build.version.release "$osver"
+	setprop ro.build.version.security_patch "$patchlevel"
 	finish
 else
 	# Be sure to increase the PLATFORM_VERSION in build/core/version_defaults.mk to override Google's anti-rollback features to something rather insane
 	osver=$(getprop ro.build.version.release_orig)
 	patchlevel=$(getprop ro.build.version.security_patch_orig)
-	resetprop ro.build.version.release "$osver"
-	resetprop ro.build.version.security_patch "$patchlevel"
+	setprop ro.build.version.release "$osver"
+	setprop ro.build.version.security_patch "$patchlevel"
 	finish
 fi
 
