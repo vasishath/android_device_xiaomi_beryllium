@@ -23,6 +23,8 @@
 # *not* include it on all devices, so it is safe even with hardware-specific
 # components.
 
+DEVICE_PATH := device/xiaomi/beryllium
+
 # Architecture
 TARGET_ARCH := arm64
 TARGET_ARCH_VARIANT := armv8-a
@@ -48,12 +50,14 @@ BOARD_KERNEL_CMDLINE := console=ttyMSM0,115200n8 earlycon=msm_geni_serial,0xA840
 BOARD_KERNEL_CMDLINE += androidboot.console=ttyMSM0 video=vfb:640x400,bpp=32,memsize=3072000 msm_rtb.filter=0x237
 BOARD_KERNEL_CMDLINE += ehci-hcd.park=3 lpm_levels.sleep_disabled=1 service_locator.enable=1 swiotlb=2048
 BOARD_KERNEL_CMDLINE += androidboot.configfs=true androidboot.usbcontroller=a600000.dwc3
-BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive printk.devkmsg=on
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_KERNEL_TAGS_OFFSET := 0x01E00000
 BOARD_RAMDISK_OFFSET := 0x02000000
 TARGET_PREBUILT_KERNEL := device/xiaomi/beryllium/prebuilt/Image.gz-dtb
+TARGET_KERNEL_CONFIG := beryllium_defconfig
+BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
 
 #BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
 #TARGET_KERNEL_ARCH := arm64
@@ -97,6 +101,7 @@ BOARD_BUILD_DISABLED_VBMETAIMAGE := true
 TARGET_HW_DISK_ENCRYPTION := true
 #TARGET_HW_DISK_ENCRYPT_NEW := true
 TW_INCLUDE_CRYPTO := true
+TARGET_CRYPTFS_HW_PATH := vendor/qcom/opensource/cryptfs_hw
 
 # TWRP specific build flags
 BOARD_HAS_NO_REAL_SDCARD := true
@@ -116,3 +121,30 @@ TW_THEME := portrait_hdpi
 TW_EXCLUDE_MTP := true
 TWRP_INCLUDE_LOGCAT := true
 TARGET_USES_LOGD := true
+PLATFORM_SECURITY_PATCH := 2025-12-31
+PLATFORM_VERSION := 9.0.0
+
+# MultiROM configuration
+MR_DEVICE_HOOKS := $(DEVICE_PATH)/multirom/mr_hooks.c
+MR_DEVICE_HOOKS_VER := 6
+MR_DEVICE_BOOTDEVICE := /dev/block/platform/soc/1d84000.ufshc
+MR_DPI := xhdpi
+MR_DPI_FONT := 340
+MR_ENCRYPTION := true
+MR_ENCRYPTION_FAKE_PROPERTIES := true
+MR_ENCRYPTION_FAKE_PROPERTIES_EXTRAS := $(DEVICE_PATH)/multirom/mr_fake_properties.c
+MR_ENCRYPTION_SETUP_SCRIPT := $(DEVICE_PATH)/multirom/mr_cp_crypto.sh
+MR_FSTAB := $(DEVICE_PATH)/recovery.fstab
+MR_INIT_DEVICES := $(DEVICE_PATH)/multirom/mr_init_devices.c
+MR_INPUT_TYPE := type_b
+MR_KEXEC_MEM_MIN := 0x86000000
+MR_NO_KEXEC := enabled
+MR_PIXEL_FORMAT := "BGRA_8888"
+MR_UNIFIED_TABS := true
+MR_USE_MROM_FSTAB := true
+MR_EXTRA_FIRMWARE_DIR := "/mrom_enc/vendor/firmware"
+RECOVERY_GRAPHICS_USE_LINELENGTH := true
+DEVICE_RESOLUTION := 1080x2160
+TARGET_RECOVERY_IS_MULTIROM := true
+MR_DEVICE_HAS_VENDOR_PARTITION := true
+MR_DEVICE_HAS_DRM_GRAPHICS := true
