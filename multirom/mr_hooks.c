@@ -291,8 +291,8 @@ void tramp_hook_encryption_setup(void)
         ERROR("Could not open boot image\n");
     }
 
-    os_version = libbootimg_get_osversion(&img.hdr);
-    os_level = libbootimg_get_oslevel(&img.hdr);
+    os_version = libbootimg_get_osversion(&img.hdr, false);
+    os_level = libbootimg_get_oslevel(&img.hdr, false);
 
     INFO("OS version: %s Security patch: %s\n", os_version, os_level);
     libbootimg_destroy(&img);
