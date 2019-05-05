@@ -122,7 +122,7 @@ TW_THEME := portrait_hdpi
 TWRP_INCLUDE_LOGCAT := true
 TARGET_USES_LOGD := true
 PLATFORM_SECURITY_PATCH := 2025-12-31
-PLATFORM_VERSION := 9.0.0
+PLATFORM_VERSION := 25.0.0
 
 # MultiROM configuration
 MR_DEVICE_HOOKS := $(DEVICE_PATH)/multirom/mr_hooks.c
