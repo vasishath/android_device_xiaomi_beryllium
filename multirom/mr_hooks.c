@@ -364,19 +364,19 @@ void tramp_hook_encryption_cleanup(void)
         //rc = kill(-servicemanager_pid, SIGTERM); // kill the entire process group
         rc = kill(-qseecomd_pid, SIGTERM); // kill the entire process group
         waitpid(qseecomd_pid, NULL, 0);
-        ERROR("qseecomd killed %d\n", rc);
+        ERROR("qseecomd killed %d\n", qseecomd_pid);
     }
     if (keymaster_pid != -1)
     {
         rc = kill(-keymaster_pid, SIGTERM); // kill the entire process group
         waitpid(keymaster_pid, NULL, 0);
-        ERROR("keymaster killed %d\n", rc);
+        ERROR("keymaster killed %d\n", keymaster_pid);
     }
     if (hwservice_pid != -1)
     {
         rc = kill(-hwservice_pid, SIGTERM); // kill the entire process group
         waitpid(hwservice_pid, NULL, 0);
-        ERROR("hwservicemanager killed %d\n", rc);
+        ERROR("hwservicemanager killed %d\n", hwservice_pid);
     }
     // make sure we're removing our symlink
     if (lstat("/dev/block/bootdevice", &info) >= 0 && S_ISLNK(info.st_mode))
