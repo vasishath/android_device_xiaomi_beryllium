@@ -36,7 +36,7 @@ on fs
 
 on init
     start hwservicemanager
-    #start prepdecrypt
+    start prepdecrypt
     setprop crypto.ready 1
 
 service prepdecrypt /sbin/prepdecrypt.sh
