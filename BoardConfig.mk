@@ -53,8 +53,9 @@ BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_KERNEL_TAGS_OFFSET := 0x01E00000
 BOARD_RAMDISK_OFFSET := 0x02000000
-TARGET_PREBUILT_KERNEL := device/xiaomi/beryllium/prebuilt/Image.gz-dtb
+#TARGET_PREBUILT_KERNEL := device/xiaomi/beryllium/prebuilt/Image.gz-dtb
 TARGET_KERNEL_CONFIG := beryllium_defconfig
+TARGET_KERNEL_SOURCE := kernel/xiaomi/beryllium
 BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
 
 # Platform
@@ -87,6 +88,8 @@ TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
 # Android Verified Boot
 BOARD_AVB_ENABLE := false
 BOARD_BUILD_DISABLED_VBMETAIMAGE := true
+
+PLATFORM_SECURITY_PATCH := 2025-12-31
 
 # Crypto
 TARGET_HW_DISK_ENCRYPTION := true
