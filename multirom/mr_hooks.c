@@ -112,14 +112,15 @@ static int fork_and_exec(char *cmd, char** env)
     {
         stdio_to_null();
         setpgid(0, getpid());
-        if (strstr(cmd, "hwservicemanager")) {
+        if (strstr(cmd, "servicemanager")) {
             setuid(1000);
         } else if (strstr(cmd, "keymaster") || strstr(cmd, "qsee")) {
             setenv("OSVER", os_version, 1);
             setenv("OSPATCH", os_level, 1);
         }
         setenv("LD_LIBRARY_PATH", "/mrom_enc", 1);
-        setenv("LD_PRELOAD", "/mrom_enc/libmultirom_fake_properties.so /mrom_enc/libmultirom_fake_propertywait.so", 1);
+        setenv("LD_CONFIG_FILE", "/mrom_enc/ld.config.txt", 1);
+        setenv("LD_PRELOAD", "/mrom_enc/libmultirom_fake_properties.so /mrom_enc/libmultirom_fake_propertywait.so /mrom_enc/libmultirom_fake_logger.so", 1);
         execve(cmd, NULL, environ);
         ERROR("Failed to exec %s: %s\n", cmd[0], strerror(errno));
         _exit(127);
@@ -282,7 +283,7 @@ void tramp_hook_encryption_setup(void)
 {
 
     // start qseecomd
-    char* env[] = {"LD_LIBRARY_PATH=/mrom_enc", "LD_PRELOAD=/mrom_enc/libmultirom_fake_properties.so /mrom_enc/libmultirom_fake_propertywait.so", NULL};
+    char* env[] = {"LD_CONFIG_FILE=/mrom_enc/ld.config.txt", "LD_LIBRARY_PATH=/mrom_enc", "LD_PRELOAD=/mrom_enc/libmultirom_fake_logger.so /mrom_enc/libmultirom_fake_properties.so /mrom_enc/libmultirom_fake_propertywait.so", NULL};
 
     symlink("/dev/block/platform/soc/1d84000.ufshc", "/dev/block/bootdevice");
     struct bootimg img;
@@ -314,7 +315,11 @@ void tramp_hook_encryption_setup(void)
     chmod("/mrom_enc/strace", 0777);
     chmod("/mrom_enc/qseecomd", 0755);
     chmod("/mrom_enc/hwservicemanager", 0755);
+    chmod("/mrom_enc/servicemanager", 0755);
     chmod("/mrom_enc/android.hardware.keymaster@3.0-service-qti", 0755);
+    chmod("/mrom_enc/android.hardware.gatekeeper@1.0-service-qti", 0755);
+    chmod("/mrom_enc/keystore", 0755);
+    chmod("/mrom_enc/keystore_auth", 0755);
     INFO("chmods done. now running binaries\n");
 
     /*int exit_code = 0;
@@ -346,13 +351,20 @@ void tramp_hook_encryption_setup(void)
     else
         INFO("keymaster started: pid=%d\n", keymaster_pid);
 
+
+    gatekeeper_pid = fork_and_exec("/mrom_enc/android.hardware.gatekeeper@1.0-service-qti", env);
+    if (gatekeeper_pid == -1)
+        ERROR("Failed to fork for keymaster; should never happen!\n");
+    else
+        INFO("gatekeeper started: pid=%d\n", gatekeeper_pid);
+
     //sleep(5);
 
-    /*servicemanager_pid = fork_and_exec("/mrom_enc/servicemanager", env);
+    servicemanager_pid = fork_and_exec("/mrom_enc/servicemanager", env);
     if (servicemanager_pid == -1)
         ERROR("Failed to fork for servicemanager; should never happen!\n");
     else
-        INFO("servicemanager started: pid=%d\n", servicemanager_pid);*/
+        INFO("servicemanager started: pid=%d\n", servicemanager_pid);
 
 }
 void tramp_hook_encryption_cleanup(void)
@@ -372,11 +384,23 @@ void tramp_hook_encryption_cleanup(void)
         waitpid(keymaster_pid, NULL, 0);
         ERROR("keymaster killed %d\n", keymaster_pid);
     }
+    if (gatekeeper_pid != -1)
+    {
+        rc = kill(-gatekeeper_pid, SIGTERM); // kill the entire process group
+        waitpid(gatekeeper_pid, NULL, 0);
+        ERROR("gatekeeper killed %d\n", gatekeeper_pid);
+    }
     if (hwservice_pid != -1)
     {
         rc = kill(-hwservice_pid, SIGTERM); // kill the entire process group
         waitpid(hwservice_pid, NULL, 0);
         ERROR("hwservicemanager killed %d\n", hwservice_pid);
+    }
+    if (servicemanager_pid != -1)
+    {
+        rc = kill(-servicemanager_pid, SIGTERM); // kill the entire process group
+        waitpid(servicemanager_pid, NULL, 0);
+        ERROR("servicemanager killed %d\n", servicemanager_pid);
     }
     // make sure we're removing our symlink
     if (lstat("/dev/block/bootdevice", &info) >= 0 && S_ISLNK(info.st_mode))

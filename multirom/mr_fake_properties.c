@@ -8,6 +8,7 @@ const char *mr_fake_properties[][2] =
     { "sys.keymaster.loaded", "true" },               // used by keystore.msm8952.so / keystore.default.so
     { "ro.boot.bootdevice", "1d84000.ufshc" },        // used by libcryptfs_hw.so
     { "ro.crypto.state", "encrypted" },               // used by libcryptfs.so
+    { "ro.crypto.type",   "file"},
     { "ro.product.board", "sdm845"},
     { "hwservicemanager.ready", "true"},
     { "ro.property_service.version", "2"},

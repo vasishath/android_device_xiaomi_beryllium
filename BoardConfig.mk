@@ -53,8 +53,8 @@ BOARD_KERNEL_CMDLINE += androidboot.configfs=true androidboot.usbcontroller=a600
 BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive printk.devkmsg=on
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 4096
-BOARD_KERNEL_TAGS_OFFSET := 0x01E00000
-BOARD_RAMDISK_OFFSET := 0x02000000
+BOARD_KERNEL_TAGS_OFFSET := 0x00000100
+BOARD_RAMDISK_OFFSET := 0x01000000
 TARGET_PREBUILT_KERNEL := device/xiaomi/beryllium/prebuilt/Image.gz-dtb
 TARGET_KERNEL_CONFIG := beryllium_defconfig
 BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
@@ -97,10 +97,14 @@ TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
 BOARD_AVB_ENABLE := false
 BOARD_BUILD_DISABLED_VBMETAIMAGE := true
 
+FLEX_EXEC := flex
+BISON_EXEC := bison
+
 # Crypto
 TARGET_HW_DISK_ENCRYPTION := true
 #TARGET_HW_DISK_ENCRYPT_NEW := true
 TW_INCLUDE_CRYPTO := true
+TW_INCLUDE_CRYPTO_FBE := true
 TARGET_CRYPTFS_HW_PATH := vendor/qcom/opensource/cryptfs_hw
 
 # TWRP specific build flags
@@ -121,8 +125,8 @@ TW_THEME := portrait_hdpi
 #TW_EXCLUDE_MTP := true
 TWRP_INCLUDE_LOGCAT := true
 TARGET_USES_LOGD := true
-PLATFORM_SECURITY_PATCH := 2025-12-31
-PLATFORM_VERSION := 25.0.0
+PLATFORM_SECURITY_PATCH := 2099-12-31
+PLATFORM_VERSION := 16.1.0
 
 # MultiROM configuration
 MR_DEVICE_HOOKS := $(DEVICE_PATH)/multirom/mr_hooks.c

@@ -9,12 +9,14 @@ const char *mr_init_devices[] =
 {
     // FrameBuffers
     "/sys/class/graphics/fb0",
+    "/sys/devices/platform/vfb.0/graphics/fb0",
     "/sys/bus/platform/drivers/msmdrm_smmu",
     "/sys/bus/platform/drivers/drm_dsi_ctrl",
     "/sys/bus/platform/drivers/msm_drm",
     "/sys/module/msm_drm",
     "/sys/module/drm_kms_helper",
     "/sys/module/drm",
+    "/sys/devices/platform/soc/ae00000.qcom,mdss_mdp/drm*",
 
     // Storage devices
     "/sys/dev/block/*",
@@ -56,17 +58,23 @@ const char *mr_init_devices[] =
     //"/sys/block/mmcblk1/mmcblk1p2",
 
     // Devices
-    "/sys/bus*",
+    /*"/sys/bus*",
     "/sys/bus/mmc",
     "/sys/bus/mmc/drivers/mmcblk",
-    "/sys/devices*",
-    "/sys/module*",
+    "/sys/devices*",*/
+    "/sys/devices/virtual/misc/binder",
+    "/sys/devices/virtual/misc/vndbinder",
+    "/sys/devices/virtual/misc/hwbinder",
+    "/sys/module/binder",
+    "/sys/module/binder_alloc",
     "/sys/devices/virtual/mem/null",
     "/sys/devices/virtual/misc/fuse",
 
     // Inputs
-    "/sys/class/input/event*",
-    "/sys/class/input/input*",
+    "/sys/class/input/event3",
+    "/sys/class/input/event2",
+    "/sys/class/input/input2",
+    "/sys/class/input/input3",
     "/sys/class/misc/uinput",
     "/sys/class/tty/ptmx",
     "/sys/devices/platform/soc/soc:gpio_keys/input*",
@@ -93,6 +101,18 @@ const char *mr_init_devices[] =
     "/sys/devices/virtual/misc/device-mapper",
     "/sys/devices/virtual/misc/ion",
     "/sys/devices/virtual/qseecom/qseecom",
+    "/sys/bus/platform/devices/soc:qcom,qsee_ipc_irq_bridge",
+    "/sys/bus/platform/devices/86d00000.qseecom",
+    "/sys/bus/platform/drivers/qseecom",
+    "/sys/bus/platform/drivers/qsee_ipc_irq_bridge",
+    "/sys/devices/platform/soc/soc:qcom,qsee_ipc_irq_bridge",
+    "/sys/devices/virtual/qsee_ipc_irq_bridge/qsee_ipc_irq_spss",
+    "/sys/devices/platform/soc/86d00000.qseecom",
+    "/sys/bus/platform/drivers/ion-msm",
+    "/sys/devices/platform/soc/soc:qcom,ion*",
+    "/sys/devices/platform/soc/1d84000.ufshc*",
+    "/sys/module/sg",
+    "/sys/devices/virtual/mem/urandom",
 
     // Logging
     "/sys/devices/virtual/mem/kmsg",
